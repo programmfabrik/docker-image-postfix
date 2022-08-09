@@ -4,9 +4,9 @@ BUILD_ARGS?=-t ${IMAGE_REPOSITORY}:latest
 
 container:
 	@echo "Building container with tag: ${TAGNAME}"
-	docker buildx build \
+	docker build \
 		--no-cache \
-		--platform linux/arm64 \
+		--platform linux/amd64 \
 		--pull \
 		--label="version=${TAG_FULL_VERSION}" \
 		${BUILD_ARGS} \
