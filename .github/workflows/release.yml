@@ -28,7 +28,7 @@ jobs:
       - name: Build Image
         if: ${{ !steps.get_version.outputs.is-prerelease }}
         env:
-          BUILD_ARGS: -t ${docker_repository}:${{ steps.get_version.outputs.version }} -t ${docker_repository}:${{ steps.get_version.outputs.major }} -t ${docker_repository}:${{ steps.get_version.outputs.major }}.${{ steps.get_version.outputs.minor }} -t ${docker_repository}:latest
+          BUILD_ARGS: -t ${docker_repository}:${{ steps.get_version.outputs.version }} -t ${docker_repository}:v${{ steps.get_version.outputs.major }} -t ${docker_repository}:v${{ steps.get_version.outputs.major }}.${{ steps.get_version.outputs.minor }} -t ${docker_repository}:latest
         run: |
           make container
 
@@ -39,3 +39,12 @@ jobs:
           BUILD_ARGS: -t ${docker_repository}:${{ steps.get_version.outputs.version }}
         run: |
           make container
+
+      - name: Release
+        uses: softprops/action-gh-release@v1
+        with:
+          name: Release ${{ steps.get_version.outputs.version }}
+          draft: true
+          generate_release_notes: true
+          files: |
+            README.md
