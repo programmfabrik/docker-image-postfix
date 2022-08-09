@@ -40,6 +40,9 @@ jobs:
         run: |
           make container
 
+      - name: Push images
+        run: docker push ${docker_repository} --all-tags
+
       - name: Release
         uses: softprops/action-gh-release@v1
         with:
