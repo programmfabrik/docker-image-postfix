@@ -4,9 +4,9 @@ LABEL maintainer="DevOps <devops@fylr.io>"
 
 COPY entrypoint.sh /entrypoint.sh
 
-RUN apk add --no-cache --update postfix cyrus-sasl ca-certificates bash && \
-    apk add --no-cache --upgrade musl musl-utils && \
-    rm -rf /var/cache/apk/* && \
+RUN apk add --no-cache --update postfix cyrus-sasl ca-certificates bash musl musl-utils
+
+RUN rm -rf /var/cache/apk/* && \
     sed -i -e 's/inet_interfaces = localhost/inet_interfaces = all/g' /etc/postfix/main.cf
 
 # delete old pid file
