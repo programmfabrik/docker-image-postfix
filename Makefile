@@ -1,6 +1,6 @@
-IMAGE_REPOSITORY ?= "docker.fylr.io/services/postfix"
+IMAGE_REPOSITORY ?= docker.fylr.io/services/postfix
 
-BUILD_ARGS?="-t ${IMAGE_REPOSITORY}:latest"
+BUILD_ARGS?=-t ${IMAGE_REPOSITORY}:latest
 
 container:
 	@echo "Building container with tag: ${TAGNAME}"
