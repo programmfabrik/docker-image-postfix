@@ -5,6 +5,10 @@ on:
     branches:
       - "*"
       - "**"
+    paths-ignore:
+      - "README.md"
+      - ".gitingore"
+      - "LICENSE"
 
 env:
   docker_repository: docker.fylr.io/services/postfix
