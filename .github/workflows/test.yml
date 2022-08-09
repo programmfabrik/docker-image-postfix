@@ -1,0 +1,22 @@
+name: Build and test
+
+on:
+  push:
+    branches:
+      - "*"
+      - "**"
+
+env:
+  docker_repository: docker.fylr.io/services/postfix
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Build image
+        env:
+          BUILD_ARGS: -t ${docker_repository}:unstable
+        run: |
+          make container
