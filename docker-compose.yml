@@ -1,0 +1,23 @@
+version: "3"
+services:
+  postfix:
+    container_name: postfix
+    build:
+      dockerfile: Dockerfile
+      context: .
+    environment:
+      POSTFIX_relayhost: 172.19.0.1:25
+      POSTFIX_myhostname: mail
+      POSTFIX_mynetworks: 127.0.0.0/8,10.0.0.0/8,172.16.0.0/12,192.168.0.0/16
+      POSTFIX_smtputf8_enable: "no"
+      POSTFIX_smtp_sasl_auth_enable: "yes"
+      POSTFIX_smtp_sasl_password_maps: hash:/etc/postfix/sasl_passwd
+      POSTFIX_smtp_sasl_security_options: ""
+      POSTFIX_maillog_file: /dev/stdout
+      POSTFIX_mydestination: ""
+      POSTFIX_message_size_limit: 10240000
+      POSTFIX_smtpd_delay_reject: yes
+      POSTFIX_smtpd_helo_required: yes
+      POSTFIX_smtpd_helo_restrictions: "permit_mynetworks,reject_invalid_helo_hostname,permit"
+      POSTFIX_relay_domains: ""
+      POSTFIX_smtpd_recipient_restrictions: "reject_non_fqdn_recipient,reject_unknown_recipient_domain,reject_unverified_recipient"
