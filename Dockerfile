@@ -4,7 +4,9 @@ LABEL maintainer="DevOps <devops@fylr.io>"
 
 COPY entrypoint.sh /entrypoint.sh
 
-RUN apk add --no-cache --update postfix cyrus-sasl ca-certificates bash musl musl-utils
+RUN apk update && \
+        apk upgrade && \
+        apk add --no-cache postfix cyrus-sasl ca-certificates bash musl musl-utils
 
 RUN rm -rf /var/cache/apk/* && \
     sed -i -e 's/inet_interfaces = localhost/inet_interfaces = all/g' /etc/postfix/main.cf
