@@ -1,0 +1,41 @@
+name: Release
+
+on:
+  push:
+    tags:
+      - "v*.*.*"
+
+env:
+  docker_repository: docker.fylr.io/services/postfix
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: docker login
+        uses: docker/login-action@v1
+        with:
+          username: robot-services+github-workflows-docker-image-postfix
+          password: ${{ secrets.DOCKER_REGISTRY_REPOSITORY_SERVICES_LOGIN_TOKEN }}
+          registry: docker.fylr.io
+
+      - id: get_version
+        uses: battila7/get-version-action@v2
+
+      # the tag does not provide prerelease information, so we build the regular image
+      - name: Build Image
+        if: ${{ !steps.get_version.outputs.is-prerelease }}
+        env:
+          BUILD_ARGS: -t ${docker_repository}:${{ steps.get_version.outputs.version }} -t ${docker_repository}:${{ steps.get_version.outputs.major }} -t ${docker_repository}:${{ steps.get_version.outputs.major }}.${{ steps.get_version.outputs.minor }} -t ${docker_repository}:latest
+        run: |
+          make container
+
+      # the tag provides prerelease information, so we build the prerelease image
+      - name: Build Image
+        if: ${{ steps.get_version.outputs.is-prerelease }}
+        env:
+          BUILD_ARGS: -t ${docker_repository}:${{ steps.get_version.outputs.version }}
+        run: |
+          make container
