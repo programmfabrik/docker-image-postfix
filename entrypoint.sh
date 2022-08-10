@@ -20,9 +20,8 @@ for entry in $envVars; do
     postconf -e "${second,,} = ${value}" || exit 1
 done
 
-postmap /postfix/sasl/sasl_passwd
-cp /postfix/sasl/sasl_passwd.lmdb /etc/postfix/sasl/
 cp /postfix/sasl/sasl_passwd /etc/postfix/sasl_passwd
+postmap /etc/postfix/sasl_passwd
 
 echo "starting postfix with command: $@..."
 exec "$@"
