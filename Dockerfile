@@ -3,6 +3,7 @@ FROM alpine:latest
 LABEL maintainer="DevOps <devops@fylr.io>"
 
 COPY entrypoint.sh /entrypoint.sh
+RUN chmod +x /entrypoint.sh
 
 RUN apk update && \
         apk upgrade && \
